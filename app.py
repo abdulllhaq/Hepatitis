@@ -118,34 +118,34 @@ st.pyplot(fig_Albumin)
 
 #chol, 2013 damn it
 st.header('Alkaline Phosphate Value Graph (Yours vs Others)')
-fig_Alkaline Phosphate = plt.figure()
+fig_Alkaline_Phosphate = plt.figure()
 ax9 = sns.scatterplot(x = 'Age', y = 'Alkaline Phosphate', data = df, hue = 'Outcome', palette='rainbow')
 ax10 = sns.scatterplot(x = user_data['age'], y = user_data['Alkaline Phosphate'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(100,750,50))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Alkaline Phosphate)
+st.pyplot(fig_Alkaline_Phosphate)
 
 #Hmax
 st.header('Alanine Aminotransferase Value Graph (Yours vs Others)')
-fig_Alanine Aminotransferase = plt.figure()
+fig_Alanine_Aminotransferase = plt.figure()
 ax5 = sns.scatterplot(x = 'Age', y = 'Alanine Aminotransferase', data = df, hue = 'Outcome', palette='Blues')
 ax6 = sns.scatterplot(x = user_data['age'], y = user_data['Alanine Aminotransferase'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(40,250,25))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Alanine Aminotransferase)
+st.pyplot(fig_Alanine_Aminotransferase)
 
 
 #STDIE
 st.header('Aspartate Aminotransferase Value Graph (Yours vs Others)')
-fig_Aspartate Aminotransferase = plt.figure()
+fig_Aspartate_Aminotransferase = plt.figure()
 ax11 = sns.scatterplot(x = 'Age', y = 'Aspartate Aminotransferase', data = df, hue = 'Outcome', palette='Greens')
 ax12 = sns.scatterplot(x = user_data['age'], y = user_data['Aspartate Aminotransferase'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0,8,0.5))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Aspartate Aminotransferase)
+st.pyplot(fig_Aspartate_Aminotransferase)
 
 
 #FCV
@@ -159,13 +159,13 @@ plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
 st.pyplot(fig_Bilirubin)
 
 st.header('Serum Cholinesterase	 Value Graph (Yours vs Others)')
-fig_Serum Cholinesterase = plt.figure()
+fig_Serum_Cholinesterase = plt.figure()
 ax13 = sns.scatterplot(x = 'Age', y = 'Serum Cholinesterase	', data = df, hue = 'Outcome', palette='rocket')
 ax14 = sns.scatterplot(x = user_data['age'], y = user_data['Serum Cholinesterase'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0,5,1))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Serum Cholinesterase)
+st.pyplot(fig_Serum_Cholinesterase)
 
 st.header('Cholestrol Value Graph (Yours vs Others)')
 fig_Cholestrol = plt.figure()
@@ -186,13 +186,13 @@ plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
 st.pyplot(fig_Creatinine)
 
 st.header('Gamma-Glutamyl Transferase Value Graph (Yours vs Others)')
-fig_Gamma-Glutamyl Transferase = plt.figure()
+fig_Gamma_Glutamyl_Transferase = plt.figure()
 ax13 = sns.scatterplot(x = 'Age', y = 'Gamma-Glutamyl Transferase', data = df, hue = 'Outcome', palette='rocket')
 ax14 = sns.scatterplot(x = user_data['age'], y = user_data['Bilirubin'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0,5,1))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Gamma-Glutamyl Transferase)
+st.pyplot(fig_Gamma_Glutamyl_Transferase)
 
 st.header('Prothrombin Value Graph (Yours vs Others)')
 fig_Prothrombin = plt.figure()
