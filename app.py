@@ -12,7 +12,7 @@ from PIL import Image
 
 #about 
 st.markdown('''
-# Heaptitis and Liver Disease Detector 
+# Liver Disease Detector 
 - This app detects if you have Hepatitis, Fibrosis or Cirrhosis based on Machine Learning!
 - App built by Pranav Sawant and Anshuman Shukla of Team Skillocity.
 - Datset: Cleveland and Hungarian heart disease dataset
@@ -26,10 +26,10 @@ st.markdown('''
 st.write('---')
 
 #obtain dataset
-df = pd.read_csv(r'heart.csv')
+df = pd.read_csv(r'HepatitisCdata.csv')
 
 #titles
-st.title('Heart Disease Detector')
+st.title('Liver Disease Detector')
 st.sidebar.header('Patient Data')
 st.subheader('Training Dataset')
 st.write(df.describe())
