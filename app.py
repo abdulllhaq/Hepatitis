@@ -58,8 +58,15 @@ def user_report():
   Gamma_Glutamyl_Transferase = st.sidebar.slider('Gamma-Glutamyl Transferase', 10,200, 120)
   Prothrombin = st.sidebar.slider('Prothrombin', 25,120, 75)
 
+  Sex_n = 1
+  if Sex=='male': 
+    Sex_n = 1
+  else: Sex_n=0
+  
+  
+  
   user_report_data = {
-      'Sex':Sex,
+      'Sex':Sex_n,
       'Age':Age,
       'Albumin':Albumin,
       'Alkaline Phosphate':Alkaline_Phosphate,
