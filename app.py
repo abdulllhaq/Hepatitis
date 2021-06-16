@@ -46,16 +46,16 @@ x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.2, random
 #user report
 def user_report():
   Sex = st.sidebar.selectbox('Sex',('Male','Female'))
-  Age = st.sidebar.slider('Age', 0,200, 75 )
-  Albumin = st.sidebar.slider('Albumin', 60,200, 126 )
-  Alkaline Phosphate = st.sidebar.slider('Alkaline Phosphate', 100,500, 330 )
-  Alanine Aminotransferase = st.sidebar.slider('Alanine Aminotransferase', 60,250, 146 )
-  Aspartate Aminotransferase = st.sidebar.slider('Aspartate Aminotransferase', 0.0,5.0, 2.50 )
-  Bilirubin = st.sidebar.slider('Bilirubin', 0,5, 2 )
-  Serum Cholinesterase = st.sidebar.slider('Serum Cholinesterase', 1,50, 12)
+  Age = st.sidebar.slider('Age', 0,200, 75)
+  Albumin = st.sidebar.slider('Albumin', 60,200, 126)
+  Alkaline_Phosphate = st.sidebar.slider('Alkaline Phosphate', 100,500, 330)
+  Alanine_Aminotransferase = st.sidebar.slider('Alanine Aminotransferase', 60,250, 146)
+  Aspartate_Aminotransferase = st.sidebar.slider('Aspartate Aminotransferase', 0.0,5.0, 2.50)
+  Bilirubin = st.sidebar.slider('Bilirubin', 0,5, 2)
+  Serum_Cholinesterase = st.sidebar.slider('Serum Cholinesterase', 1,50, 12)
   Cholestrol = st.sidebar.slider('Cholestrol', 1,12, 3)
   Creatinine = st.sidebar.slider('Creatinine', 12,120, 75)
-  Gamma-Glutamyl Transferase = st.sidebar.slider('Gamma-Glutamyl Transferase', 10,200, 120)
+  Gamma_Glutamyl_Transferase = st.sidebar.slider('Gamma-Glutamyl Transferase', 10,200, 120)
   Prothrombin = st.sidebar.slider('Prothrombin', 25,120, 75)
 
   user_report_data = {
