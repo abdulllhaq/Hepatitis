@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 from PIL import Image
+from sklearn import preprocessing
 
 #about 
 st.markdown('''
