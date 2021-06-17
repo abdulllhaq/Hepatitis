@@ -14,15 +14,9 @@ from sklearn import preprocessing
 #about 
 st.markdown('''
 # Liver Disease Detector 
-- This app detects if you have Hepatitis, Fibrosis or Cirrhosis based on Machine Learning!
+- This app detects if you have a Hepatic (Liver) disaese such as Hepatitis, Fibrosis or Cirrhosis based on Machine Learning!
 - App built by Pranav Sawant and Anshuman Shukla of Team Skillocity.
-- Datset: Cleveland and Hungarian heart disease dataset
 - Note: User inputs are taken from the sidebar. It is located at the top left of the page (arrow symbol). The values of the parameters can be changed from the sidebar.
-  Dataset creators:
-- Hungarian Institute of Cardiology. Budapest: Andras Janosi, M.D.
-- University Hospital, Zurich, Switzerland: William Steinbrunn, M.D.
-- University Hospital, Basel, Switzerland: Matthias Pfisterer, M.D.
-- V.A. Medical Center, Long Beach and Cleveland Clinic Foundation: Robert Detrano, M.D., Ph.D.
 ''')
 st.write('---')
 
@@ -30,7 +24,6 @@ st.write('---')
 df = pd.read_csv(r'HepatitisCdata.csv')
 
 #titles
-st.title('Liver Disease Detector')
 st.sidebar.header('Patient Data')
 st.subheader('Training Dataset')
 st.write(df.describe())
@@ -226,17 +219,18 @@ else:
   output = 'Unfortunately, you do have Cirrosis.'
 st.title(output)
 
-
-
+st.write('Datset description: From G.Gong: Carnegie-Mellon University; Mostly Boolean or numeric-valued attribute types; Includes cost data (donated by Peter Turney)')
+st.write('Relevant Papers: Diaconis,P. & Efron,B. (1983). Computer-Intensive Methods in Statistics. Scientific American, Volume 248. Cestnik,G., Konenenko,I, & Bratko,I. (1987). Assistant-86: A Knowledge-Elicitation Tool for Sophisticated Users. In I.Bratko & N.Lavrac (Eds.) Progress in Machine Learning, 31-45, Sigma Press.')
+st.write('Dataset License: Open Data Commons Public Domain Dedication and License (PDDL)')
 
 #Most important for users
-st.subheader('Lets raise awareness for cardiovascular health and increase awareness about cardiovascular diseases.')
-st.write("World Heart Day: 29 September")
+st.subheader('Lets raise awareness for hepatic health and increase awareness about hepatic diseases.')
+st.write("World Hepatitis Day: 28 July")
 
-st.sidebar.subheader("""An article about this app: https://proskillocity.blogspot.com/2021/05/heart-disease-detector-web-app.html""")
-st.write("Dataset License: Creative Commons Attribution 4.0 International (CC BY 4.0)")
+#st.sidebar.subheader("""An article about this app: https://proskillocity.blogspot.com/2021/05/heart-disease-detector-web-app.html""")
 
-st.write("Disclaimer: This is just a learning project based on one particular dataset so please do not depend on it to actually know if you have any cardiovascular diseases or not. It might still be a false positive or false negative. A doctor is still the best fit for the determination of such diseases.")
+
+st.write("Disclaimer: This is just a learning project based on one particular dataset so please do not depend on it to actually know if you have any hepatic diseases or not. It might still be a false positive or false negative. A doctor is still the best fit for the determination of such diseases.")
 
 image = Image.open('killocity (3).png')
 
