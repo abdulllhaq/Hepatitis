@@ -217,11 +217,11 @@ st.subheader('Your Report: ')
 #st.title(user_result[2])
 
 if user_result[0]==0:
-  #output = 'Congratulations, you do not have any liver diseases.'
+  output = 'Congratulations, you do not have any liver diseases.'
 elif user_result[1]==1:
-  #output = "Unfortunately, you do have Hepatitis."
+  output = "Unfortunately, you do have Hepatitis."
 elif user_result[2]==2:
-  #output = "Unfortunately, you do have Fibrosis."
+  output = "Unfortunately, you do have Fibrosis."
 else:
   output = 'Unfortunately, you do have Cirrosis.'
 st.title(output)
