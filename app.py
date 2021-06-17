@@ -51,15 +51,15 @@ def user_report():
   Sex = st.sidebar.selectbox('Sex',('Male','Female'))
   Age = st.sidebar.slider('Age', 15,80, 45)
   Albumin = st.sidebar.slider('Albumin', 12,85, 44)
-  Alkaline_Phosphate = st.sidebar.slider('Alkaline Phosphate', 10,420, 70)
+  Alkaline_Phosphate = st.sidebar.slider('Alkaline Phosphate', 0,420, 70)
   Alanine_Aminotransferase = st.sidebar.slider('Alanine Aminotransferase', 0,330, 30)
   Aspartate_Aminotransferase = st.sidebar.slider('Aspartate Aminotransferase', 10,330, 40)
   Bilirubin = st.sidebar.slider('Bilirubin', 0,260, 12)
   Serum_Cholinesterase = st.sidebar.slider('Serum Cholinesterase', 0,20, 11)
   Cholestrol = st.sidebar.slider('Cholestrol', 0,10, 5)
-  Creatinine = st.sidebar.slider('Creatinine', 8,1200, 80)
+  Creatinine = st.sidebar.slider('Creatinine', 0,1200, 80)
   Gamma_Glutamyl_Transferase = st.sidebar.slider('Gamma-Glutamyl Transferase', 0,700, 42)
-  Prothrombin = st.sidebar.slider('Prothrombin', 40,100, 72)
+  Prothrombin = st.sidebar.slider('Prothrombin', 0,100, 72)
 
   Sex_n = 1
   if Sex=='male': 
