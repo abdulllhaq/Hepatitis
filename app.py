@@ -213,7 +213,7 @@ st.pyplot(fig_Prothrombin)
 
 #Final Report
 st.subheader('Your Report: ')
-st.title(user_report[0])
+st.title(user_result[0])
 for i in range(0,4):
   output=user_result[i]
   st.title(output)
