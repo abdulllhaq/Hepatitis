@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 from PIL import Image
-from sklearn import preprocessing
+#from sklearn import preprocessing
 
 #about 
 st.markdown('''
@@ -42,8 +42,8 @@ st.write(df.describe())
 x = df.drop(['Outcome'], axis = 1)
 y = df.iloc[:, -1]
 x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.9, random_state = 0)
-lab_enc = preprocessing.LabelEncoder()
-training_scores_encoded = lab_enc.fit_transform(y_train)
+#lab_enc = preprocessing.LabelEncoder()
+#training_scores_encoded = lab_enc.fit_transform(y_train)
 
 
 #user report
@@ -93,7 +93,7 @@ st.write(user_data)
 
 
 rf  = RandomForestClassifier()
-rf.fit(x_train, training_scores_encoded)
+rf.fit(x_train, y_train)
 user_result = rf.predict(user_data)
 
 
