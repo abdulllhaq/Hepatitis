@@ -21,7 +21,7 @@ st.markdown('''
 st.write('---')
 
 #obtain dataset
-df = pd.read_csv(r'HepatitisCdata.csv')
+df = pd.read_csv(r'forpranav.csv')
 
 #titles
 st.sidebar.header('Patient Data')
