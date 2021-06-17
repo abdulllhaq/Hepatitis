@@ -214,15 +214,18 @@ st.pyplot(fig_Prothrombin)
 #Final Report
 st.subheader('Your Report: ')
 output=''
-if user_result[0]==0:
-  output = 'Congratulations, you do not have any liver diseases.'
-elif user_result[0]==1:
-  output = "Unfortunately, you do have Hepatitis."
-elif user_result[0]==2:
-  output = "Unfortunately, you do have Fibrosis."
-else:
-  output = 'Unfortunately, you do have Cirrosis.'
-st.title(output)
+for i in range(1,4):
+  output=user_result[i]
+  st.title(output)
+#if user_result[0]==0:
+  #output = 'Congratulations, you do not have any liver diseases.'
+#elif user_result[0]==1:
+  #output = "Unfortunately, you do have Hepatitis."
+#elif user_result[0]==2:
+  #output = "Unfortunately, you do have Fibrosis."
+#else:
+  #output = 'Unfortunately, you do have Cirrosis.'
+#st.title(output)
 
 
 
