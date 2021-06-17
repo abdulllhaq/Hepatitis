@@ -41,7 +41,7 @@ st.write(df.describe())
 #training
 x = df.drop(['Outcome'], axis = 1)
 y = df.iloc[:, -1]
-x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.2, random_state = 0)
+x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.9, random_state = 0)
 lab_enc = preprocessing.LabelEncoder()
 training_scores_encoded = lab_enc.fit_transform(y_train)
 
@@ -213,18 +213,18 @@ st.pyplot(fig_Prothrombin)
 
 #Final Report
 st.subheader('Your Report: ')
-st.title(len(user_result[0]))
+#st.title(len(user_result[0]))
 #st.title(user_result[2])
 
-#if user_result[0]==0:
+if user_result[0]==0:
   #output = 'Congratulations, you do not have any liver diseases.'
-#elif user_result[1]==1:
+elif user_result[1]==1:
   #output = "Unfortunately, you do have Hepatitis."
-#elif user_result[2]==2:
+elif user_result[2]==2:
   #output = "Unfortunately, you do have Fibrosis."
-#else:
-  #output = 'Unfortunately, you do have Cirrosis.'
-#st.title(output)
+else:
+  output = 'Unfortunately, you do have Cirrosis.'
+st.title(output)
 
 
 
