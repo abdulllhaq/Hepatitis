@@ -214,9 +214,7 @@ st.pyplot(fig_Prothrombin)
 #Final Report
 st.subheader('Your Report: ')
 st.title(user_result[1])
-for i in range(0,4):
-  output=user_result[i]
-  st.title(output)
+
 #if user_result[0]==0:
   #output = 'Congratulations, you do not have any liver diseases.'
 #elif user_result[0]==1:
