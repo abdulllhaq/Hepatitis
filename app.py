@@ -188,7 +188,7 @@ st.pyplot(fig_Cholestrol)
 
 st.header('Creatinine Value Graph (Yours vs Others)')
 fig_Creatinine = plt.figure()
-ax13 = sns.scatterplot(x = 'Age', y = 'Creatinine', data = df, hue = 'Outcome', palette='#69d')
+ax13 = sns.scatterplot(x = 'Age', y = 'Creatinine', data = df, hue = 'Outcome', palette='coolwarm')
 ax14 = sns.scatterplot(x = user_data['Age'], y = user_data['Creatinine'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0,1200,50))
