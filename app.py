@@ -218,9 +218,9 @@ st.subheader('Your Report: ')
 
 if user_result[0]==0:
   output = 'Congratulations, you do not have any liver diseases.'
-elif user_result[1]==1:
+elif user_result[0]==1:
   output = "Unfortunately, you do have Hepatitis."
-elif user_result[2]==2:
+elif user_result[0]==2:
   output = "Unfortunately, you do have Fibrosis."
 else:
   output = 'Unfortunately, you do have Cirrosis.'
