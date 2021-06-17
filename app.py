@@ -213,7 +213,7 @@ st.pyplot(fig_Prothrombin)
 
 #Final Report
 st.subheader('Your Report: ')
-st.title(user_result[1])
+st.title(user_result[2])
 
 #if user_result[0]==0:
   #output = 'Congratulations, you do not have any liver diseases.'
