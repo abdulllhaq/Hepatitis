@@ -48,7 +48,6 @@ training_scores_encoded = lab_enc.fit_transform(y_train)
 
 #user report
 def user_report():
-  Sex = st.sidebar.selectbox('Sex',('Male','Female'))
   Age = st.sidebar.slider('Age', 15,80, 45)
   Albumin = st.sidebar.slider('Albumin', 12,85, 44)
   Alkaline_Phosphate = st.sidebar.slider('Alkaline Phosphate', 0,420, 70)
@@ -61,15 +60,11 @@ def user_report():
   Gamma_Glutamyl_Transferase = st.sidebar.slider('Gamma-Glutamyl Transferase', 0,700, 42)
   Prothrombin = st.sidebar.slider('Prothrombin', 0,100, 72)
 
-  Sex_n = 1
-  if Sex=='male': 
-    Sex_n = 1
-  else: Sex_n=0
+ 
   
   
   
   user_report_data = {
-      'Sex':Sex_n,
       'Age':Age,
       'Albumin':Albumin,
       'Alkaline Phosphate':Alkaline_Phosphate,
