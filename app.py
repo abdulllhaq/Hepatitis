@@ -218,7 +218,7 @@ elif user_result[0]==2:
 else:
   output = 'Unfortunately, you do have Cirrosis.'
 st.title(output)
-st.subheader('Accueacy: ')
+st.subheader('Accuracy: ')
 st.write(str(accuracy_score(y_test, rf.predict(x_test))*100)+'%')
 
 st.write('Datset description: From G.Gong: Carnegie-Mellon University; Mostly Boolean or numeric-valued attribute types; Includes cost data (donated by Peter Turney)')
