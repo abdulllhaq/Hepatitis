@@ -218,6 +218,8 @@ elif user_result[0]==2:
 else:
   output = 'Unfortunately, you do have Cirrosis.'
 st.title(output)
+st.subheader('Accueacy: ')
+st.write(str(accuracy_score(y_test, rf.predict(x_test))*100)+'%')
 
 st.write('Datset description: From G.Gong: Carnegie-Mellon University; Mostly Boolean or numeric-valued attribute types; Includes cost data (donated by Peter Turney)')
 st.write('Relevant Papers: Diaconis,P. & Efron,B. (1983). Computer-Intensive Methods in Statistics. Scientific American, Volume 248. Cestnik,G., Konenenko,I, & Bratko,I. (1987). Assistant-86: A Knowledge-Elicitation Tool for Sophisticated Users. In I.Bratko & N.Lavrac (Eds.) Progress in Machine Learning, 31-45, Sigma Press.')
