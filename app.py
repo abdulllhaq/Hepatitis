@@ -237,3 +237,5 @@ st.write("Disclaimer: This is just a learning project based on one particular da
 image = Image.open('killocity (3).png')
 
 st.image(image, use_column_width=True)
+
+st.sidebar.subheader("An article about this app: "https://proskillocity.blogspot.com/2021/06/hepatic-disease-detector.html")
