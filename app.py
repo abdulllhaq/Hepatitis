@@ -15,7 +15,7 @@ from sklearn import preprocessing
 st.markdown('''
 # Liver Disease Detector 
 - This app detects if you have a Hepatic (Liver) disaese such as Hepatitis, Fibrosis or Cirrhosis based on Machine Learning!
-- App built by Pranav Sawant and Anshuman Shukla of Team Skillocity.
+- App built by Anshuman Shukla and Pranav Sawant of Team Skillocity.
 - Note: User inputs are taken from the sidebar. It is located at the top left of the page (arrow symbol). The values of the parameters can be changed from the sidebar.
 ''')
 st.write('---')
