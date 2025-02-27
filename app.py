@@ -1,45 +1,47 @@
 import streamlit as st
 import pandas as pd
+from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+import plotly.figure_factory as ff
 from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+import seaborn as sns
 from sklearn import preprocessing
-from PIL import Image  # Keep this import if you intend to use images later
 
-# About
+# about
 st.markdown('''
 # Liver Disease Detector
-
-- This app detects if you have a Hepatic (Liver) disease such as Hepatitis, Fibrosis, or Cirrhosis based on Machine Learning!
+- This app detects if you have a Hepatic (Liver) disaese such as Hepatitis, Fibrosis or Cirrhosis based on Machine Learning!
 - App built by Abdul Haq of Team Skillocity.
 - Note: User inputs are taken from the sidebar. It is located at the top left of the page (arrow symbol). The values of the parameters can be changed from the sidebar.
 ''')
 st.write('---')
 
-# Obtain dataset
+# obtain dataset
 try:
     df = pd.read_csv('HepatitisCdata.csv')
 except FileNotFoundError:
-    st.error("Error: HepatitisCdata.csv not found. Please make sure the file is in the same directory as the script, or provide the correct path.")
+    st.error(
+        "Error: HepatitisCdata.csv not found. Please make sure the file is in the same directory as the script, or provide the correct path.")
     st.stop()
 
-# Titles
+# titles
 st.sidebar.header('Patient Data')
 st.subheader('Training Dataset')
 st.write(df.describe())
 
-# Training
+# training
 x = df.drop(['Outcome'], axis=1)
 y = df.iloc[:, -1]
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0) # Reduced test_size to 0.3 to avoid training on very small dataset.
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3,
+                                                    random_state=0)  # Reduced test_size to 0.3 to avoid training on very small dataset.
 lab_enc = preprocessing.LabelEncoder()
-y_train_encoded = lab_enc.fit_transform(y_train) # Encode y_train instead of y
+y_train_encoded = lab_enc.fit_transform(
+    y_train)  # Encode y_train instead of y
 
-
-# User report
+# user report
 def user_report():
     Age = st.sidebar.slider('Age', 15, 80, 45)
     Albumin = st.sidebar.slider('Albumin', 12, 85, 44)
@@ -69,7 +71,6 @@ def user_report():
     report_data = pd.DataFrame(user_report_data, index=[0])
     return report_data
 
-
 user_data = user_report()
 st.subheader('Patient Data')
 st.write(user_data)
@@ -80,11 +81,11 @@ rf.fit(x_train, y_train_encoded)
 user_result = rf.predict(user_data)
 
 # Decode Prediction
-user_outcome = lab_enc.inverse_transform(user_result)
+#user_outcome = lab_enc.inverse_transform(user_result)
 
 st.title('Graphical Patient Report')
 
-if user_outcome[0] == 0:
+if user_result[0] == 0:
     color = 'blue'
 else:
     color = 'red'
@@ -92,8 +93,10 @@ else:
 # --- Albumin Graph ---
 st.header('Albumin Value Graph (Yours vs Others)')
 fig_Albumin = plt.figure()
-ax3 = sns.scatterplot(x='Age', y='Albumin', data=df, hue='Outcome', palette='rocket')
-ax4 = sns.scatterplot(x=user_data['Age'], y=user_data['Albumin'], s=150, color=color)
+ax3 = sns.scatterplot(x='Age', y='Albumin', data=df, hue='Outcome',
+                        palette='rocket')
+ax4 = sns.scatterplot(x=user_data['Age'], y=user_data['Albumin'], s=150,
+                        color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(10, 90, 5))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
@@ -102,8 +105,10 @@ st.pyplot(fig_Albumin)
 # --- Alkaline Phosphate Graph ---
 st.header('Alkaline Phosphate Value Graph (Yours vs Others)')
 fig_Alkaline_Phosphate = plt.figure()
-ax9 = sns.scatterplot(x='Age', y='Alkaline Phosphate', data=df, hue='Outcome', palette='rainbow')
-ax10 = sns.scatterplot(x=user_data['Age'], y=user_data['Alkaline Phosphate'], s=150, color=color)
+ax9 = sns.scatterplot(x='Age', y='Alkaline Phosphate', data=df, hue='Outcome',
+                        palette='rainbow')
+ax10 = sns.scatterplot(x=user_data['Age'], y=user_data['Alkaline Phosphate'],
+                            s=150, color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 440, 20))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
@@ -112,8 +117,11 @@ st.pyplot(fig_Alkaline_Phosphate)
 # --- Alanine Aminotransferase Graph ---
 st.header('Alanine Aminotransferase Value Graph (Yours vs Others)')
 fig_Alanine_Aminotransferase = plt.figure()
-ax5 = sns.scatterplot(x='Age', y='Alanine Aminotransferase', data=df, hue='Outcome', palette='mako')
-ax6 = sns.scatterplot(x=user_data['Age'], y=user_data['Alanine Aminotransferase'], s=150, color=color)
+ax5 = sns.scatterplot(x='Age', y='Alanine Aminotransferase', data=df, hue='Outcome',
+                        palette='mako')
+ax6 = sns.scatterplot(x=user_data['Age'],
+                        y=user_data['Alanine Aminotransferase'], s=150,
+                        color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 340, 20))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
@@ -122,8 +130,11 @@ st.pyplot(fig_Alanine_Aminotransferase)
 # --- Aspartate Aminotransferase Graph ---
 st.header('Aspartate Aminotransferase Value Graph (Yours vs Others)')
 fig_Aspartate_Aminotransferase = plt.figure()
-ax11 = sns.scatterplot(x='Age', y='Aspartate Aminotransferase', data=df, hue='Outcome', palette='flare')
-ax12 = sns.scatterplot(x=user_data['Age'], y=user_data['Aspartate Aminotransferase'], s=150, color=color)
+ax11 = sns.scatterplot(x='Age', y='Aspartate Aminotransferase', data=df,
+                            hue='Outcome', palette='flare')
+ax12 = sns.scatterplot(x=user_data['Age'],
+                            y=user_data['Aspartate Aminotransferase'], s=150,
+                            color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 340, 20))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
@@ -132,92 +143,105 @@ st.pyplot(fig_Aspartate_Aminotransferase)
 # --- Bilirubin Graph ---
 st.header('Bilirubin Value Graph (Yours vs Others)')
 fig_Bilirubin = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Bilirubin', data=df, hue='Outcome', palette='crest')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Bilirubin'], s=150, color=color)
+ax13 = sns.scatterplot(x='Age', y='Bilirubin', data=df, hue='Outcome',
+                            palette='crest')
+ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Bilirubin'], s=150,
+                            color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 300, 20))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
 st.pyplot(fig_Bilirubin)
 
-# --- Serum Cholinesterase Graph ---
 st.header('Serum Cholinesterase Value Graph (Yours vs Others)')
 fig_Serum_Cholinesterase = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Serum Cholinesterase', data=df, hue='Outcome', palette='magma')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Serum Cholinesterase'], s=150, color=color)
+ax13 = sns.scatterplot(x='Age', y='Serum Cholinesterase', data=df,
+                            hue='Outcome', palette='magma')
+ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Serum Cholinesterase'],
+                            s=150, color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 20, 1))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
 st.pyplot(fig_Serum_Cholinesterase)
 
-# --- Cholestrol Graph ---
 st.header('Cholestrol Value Graph (Yours vs Others)')
 fig_Cholestrol = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Cholestrol', data=df, hue='Outcome', palette='viridis')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Cholestrol'], s=150, color=color)
+ax13 = sns.scatterplot(x='Age', y='Cholestrol', data=df, hue='Outcome',
+                            palette='viridis')
+ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Cholestrol'], s=150,
+                            color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 10, 0.5))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
 st.pyplot(fig_Cholestrol)
 
-# --- Creatinine Graph ---
 st.header('Creatinine Value Graph (Yours vs Others)')
 fig_Creatinine = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Creatinine', data=df, hue='Outcome', palette='coolwarm')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Creatinine'], s=150, color=color)
+ax13 = sns.scatterplot(x='Age', y='Creatinine', data=df, hue='Outcome',
+                            palette='coolwarm')
+ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Creatinine'], s=150,
+                            color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 1200, 50))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
 st.pyplot(fig_Creatinine)
 
-# --- Gamma-Glutamyl Transferase Graph ---
 st.header('Gamma-Glutamyl Transferase Value Graph (Yours vs Others)')
 fig_Gamma_Glutamyl_Transferase = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Gamma-Glutamyl Transferase', data=df, hue='Outcome', palette='icefire')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Gamma-Glutamyl Transferase'], s=150, color=color)
+ax13 = sns.scatterplot(x='Age', y='Gamma-Glutamyl Transferase', data=df,
+                            hue='Outcome', palette='icefire')
+ax14 = sns.scatterplot(x=user_data['Age'],
+                            y=user_data['Gamma-Glutamyl Transferase'], s=150,
+                            color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 700, 25))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
 st.pyplot(fig_Gamma_Glutamyl_Transferase)
 
-# --- Prothrombin Graph ---
 st.header('Prothrombin Value Graph (Yours vs Others)')
 fig_Prothrombin = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Prothrombin', data=df, hue='Outcome', palette='Spectral')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Prothrombin'], s=150, color=color)
+ax13 = sns.scatterplot(x='Age', y='Prothrombin', data=df, hue='Outcome',
+                            palette='Spectral')
+ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Prothrombin'], s=150,
+                            color=color)
 plt.xticks(np.arange(0, 100, 5))
 plt.yticks(np.arange(0, 100, 5))
 plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
 st.pyplot(fig_Prothrombin)
 
 # Final Report
-st.subheader('Your Report:')
+st.subheader('Your Report: ')
 
-if user_outcome[0] == 0:
+if user_result[0] == 0:
     output = 'Congratulations, you do not have any liver diseases.'
-elif user_outcome[0] == 1:
+elif user_result[0] == 1:
     output = "Unfortunately, you do have Hepatitis."
-elif user_outcome[0] == 2:
+elif user_result[0] == 2:
     output = "Unfortunately, you do have Fibrosis."
 else:
-    output = 'Unfortunately, you do have Cirrhosis.'
-
+    output = 'Unfortunately, you do have Cirrosis.'
 st.title(output)
+st.subheader('Accuracy: ')
+st.write(str(accuracy_score(y_test, rf.predict(x_test)) * 100) + '%')
 
-# Display Accuracy
-st.subheader('Accuracy:')
-accuracy = accuracy_score(y_test, rf.predict(x_test))
-st.write(f"{accuracy * 100:.2f}%")
-
-# Dataset Description and License
-st.write('Dataset description: From G.Gong: Carnegie-Mellon University; Mostly Boolean or numeric-valued attribute types; Includes cost data (donated by Peter Turney)')
-st.write('Relevant Papers: Diaconis,P. & Efron,B. (1983). Computer-Intensive Methods in Statistics. Scientific American, Volume 248. Cestnik,G., Konenenko,I, & Bratko,I. (1987). Assistant-86: A Knowledge-Elicitation Tool for Sophisticated Users. In I.Bratko & N.Lavrac (Eds.) Progress in Machine Learning, 31-45, Sigma Press.')
+st.write(
+    'Datset description: From G.Gong: Carnegie-Mellon University; Mostly Boolean or numeric-valued attribute types; Includes cost data (donated by Peter Turney)')
+st.write(
+    'Relevant Papers: Diaconis,P. & Efron,B. (1983). Computer-Intensive Methods in Statistics. Scientific American, Volume 248. Cestnik,G., Konenenko,I, & Bratko,I. (1987). Assistant-86: A Knowledge-Elicitation Tool for Sophisticated Users. In I.Bratko & N.Lavrac (Eds.) Progress in Machine Learning, 31-45, Sigma Press.')
 st.write('Dataset License: Open Data Commons Public Domain Dedication and License (PDDL)')
 
-# Awareness Section
-st.subheader('Lets raise awareness for hepatic health and increase awareness about hepatic diseases.')
+# Most important for users
+st.subheader(
+    'Lets raise awareness for hepatic health and increase awareness about hepatic diseases.')
 st.write("World Hepatitis Day: 28 July")
 
-# Disclaimer
-st.write("Disclaimer: This is just a learning project based on one particular dataset so please do not depend on it to actually know if you have any hepatic diseases or not. It might still be a false positive or false negative. A doctor is still the best fit for the determination of such diseases.")
+# st.sidebar.subheader("""An article about this app: https://proskillocity.blogspot.com/2021/05/heart-disease-detector-web-app.html""")
 
-st.sidebar.subheader("An article about this app: [Link to article]") #Removed link since it was a dead link
+st.write(
+    "Disclaimer: This is just a learning project based on one particular dataset so please do not depend on it to actually know if you have any hepatic diseases or not. It might still be a false positive or false negative. A doctor is still the best fit for the determination of such diseases.")
+
+# Removing the image
+# image = Image.open('killocity (3).png')
+# st.image(image, use_column_width=True)
+
+st.sidebar.subheader(
+    "An article about this app: https://proskillocity.blogspot.com/2021/06/hepatic-disease-detector.html")
