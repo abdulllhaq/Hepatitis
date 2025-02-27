@@ -1,247 +1,123 @@
 import streamlit as st
 import pandas as pd
-from PIL import Image
-import numpy as np
-import matplotlib.pyplot as plt
-import plotly.figure_factory as ff
-from sklearn.metrics import accuracy_score
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-import seaborn as sns
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np  # Import numpy
 
-# about
+
+# App Title
+st.title('Liver Disease Prediction App')
+
+# About Section
 st.markdown('''
 # Liver Disease Detector
-- This app detects if you have a Hepatic (Liver) disaese such as Hepatitis, Fibrosis or Cirrhosis based on Machine Learning!
+
+- This app detects if you have a Hepatic (Liver) disease such as Hepatitis, Fibrosis, or Cirrhosis based on Machine Learning!
 - App built by Abdul Haq of Team Skillocity.
 - Note: User inputs are taken from the sidebar. It is located at the top left of the page (arrow symbol). The values of the parameters can be changed from the sidebar.
 ''')
 st.write('---')
 
-# obtain dataset
+# Load Data
 try:
     df = pd.read_csv('HepatitisCdata.csv')
 except FileNotFoundError:
-    st.error(
-        "Error: HepatitisCdata.csv not found. Please make sure the file is in the same directory as the script, or provide the correct path.")
+    st.error("Error: HepatitisCdata.csv not found.  Make sure it's in the same directory.")
     st.stop()
 
-# titles
-st.sidebar.header('Patient Data')
-st.subheader('Training Dataset')
+# Preprocessing
+df.columns = df.columns.str.strip()  # remove whitespace from column names. Critical fix!
+df = df.rename(columns={'Serum Cholinesterase ': 'Serum Cholinesterase'}) # fix a subtle name mismatch
+
+
+# Data Summary
+st.sidebar.header('Patient Data Input')
+st.subheader('Dataset Overview')
 st.write(df.describe())
 
-# training
-x = df.drop(['Outcome'], axis=1)
-y = df.iloc[:, -1]
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3,
-                                                    random_state=0)  # Reduced test_size to 0.3 to avoid training on very small dataset.
-lab_enc = preprocessing.LabelEncoder()
-y_train_encoded = lab_enc.fit_transform(
-    y_train)  # Encode y_train instead of y
+# Prepare Data for Model
+X = df.drop('Outcome', axis=1)
+y = df['Outcome']
 
-# user report
-def user_report():
-    Age = st.sidebar.slider('Age', 15, 80, 45)
-    Albumin = st.sidebar.slider('Albumin', 12, 85, 44)
-    Alkaline_Phosphate = st.sidebar.slider('Alkaline Phosphate', 0, 420, 70)
-    Alanine_Aminotransferase = st.sidebar.slider('Alanine Aminotransferase', 0, 330, 30)
-    Aspartate_Aminotransferase = st.sidebar.slider('Aspartate Aminotransferase', 10, 330, 40)
-    Bilirubin = st.sidebar.slider('Bilirubin', 0, 260, 12)
-    Serum_Cholinesterase = st.sidebar.slider('Serum Cholinesterase', 0, 20, 11)
-    Cholestrol = st.sidebar.slider('Cholestrol', 0, 10, 5)
-    Creatinine = st.sidebar.slider('Creatinine', 0, 1200, 80)
-    Gamma_Glutamyl_Transferase = st.sidebar.slider('Gamma-Glutamyl Transferase', 0, 700, 42)
-    Prothrombin = st.sidebar.slider('Prothrombin', 0, 100, 72)
+# Encode target variable
+label_encoder = preprocessing.LabelEncoder()
+y_encoded = label_encoder.fit_transform(y)
 
-    user_report_data = {
-        'Age': Age,
-        'Albumin': Albumin,
-        'Alkaline Phosphate': Alkaline_Phosphate,
-        'Alanine Aminotransferase': Alanine_Aminotransferase,
-        'Aspartate Aminotransferase': Aspartate_Aminotransferase,
-        'Bilirubin': Bilirubin,
-        'Serum Cholinesterase': Serum_Cholinesterase,
-        'Cholestrol': Cholestrol,
-        'Creatinine': Creatinine,
-        'Gamma-Glutamyl Transferase': Gamma_Glutamyl_Transferase,
-        'Prothrombin': Prothrombin,
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
+
+# Model Training
+model = RandomForestClassifier(random_state=42)
+model.fit(X_train, y_train)
+
+# User Input Form
+def user_input_features():
+    age = st.sidebar.slider('Age', int(X['Age'].min()), int(X['Age'].max()), int(X['Age'].mean()))
+    albumin = st.sidebar.slider('Albumin', float(X['Albumin'].min()), float(X['Albumin'].max()), float(X['Albumin'].mean()))
+    alkaline_phosphate = st.sidebar.slider('Alkaline Phosphate', float(X['Alkaline Phosphate'].min()), float(X['Alkaline Phosphate'].max()), float(X['Alkaline Phosphate'].mean()))
+    alanine_aminotransferase = st.sidebar.slider('Alanine Aminotransferase', float(X['Alanine Aminotransferase'].min()), float(X['Alanine Aminotransferase'].max()), float(X['Alanine Aminotransferase'].mean()))
+    aspartate_aminotransferase = st.sidebar.slider('Aspartate Aminotransferase', float(X['Aspartate Aminotransferase'].min()), float(X['Aspartate Aminotransferase'].max()), float(X['Aspartate Aminotransferase'].mean()))
+    bilirubin = st.sidebar.slider('Bilirubin', float(X['Bilirubin'].min()), float(X['Bilirubin'].max()), float(X['Bilirubin'].mean()))
+    serum_cholinesterase = st.sidebar.slider('Serum Cholinesterase', float(X['Serum Cholinesterase'].min()), float(X['Serum Cholinesterase'].max()), float(X['Serum Cholinesterase'].mean()))
+    cholesterol = st.sidebar.slider('Cholestrol', float(X['Cholestrol'].min()), float(X['Cholestrol'].max()), float(X['Cholestrol'].mean()))
+    creatinine = st.sidebar.slider('Creatinine', float(X['Creatinine'].min()), float(X['Creatinine'].max()), float(X['Creatinine'].mean()))
+    gamma_glutamyl_transferase = st.sidebar.slider('Gamma-Glutamyl Transferase', float(X['Gamma-Glutamyl Transferase'].min()), float(X['Gamma-Glutamyl Transferase'].max()), float(X['Gamma-Glutamyl Transferase'].mean()))
+    prothrombin = st.sidebar.slider('Prothrombin', float(X['Prothrombin'].min()), float(X['Prothrombin'].max()), float(X['Prothrombin'].mean()))
+
+    data = {
+        'Age': age,
+        'Albumin': albumin,
+        'Alkaline Phosphate': alkaline_phosphate,
+        'Alanine Aminotransferase': alanine_aminotransferase,
+        'Aspartate Aminotransferase': aspartate_aminotransferase,
+        'Bilirubin': bilirubin,
+        'Serum Cholinesterase': serum_cholinesterase,
+        'Cholestrol': cholesterol,
+        'Creatinine': creatinine,
+        'Gamma-Glutamyl Transferase': gamma_glutamyl_transferase,
+        'Prothrombin': prothrombin
     }
-    report_data = pd.DataFrame(user_report_data, index=[0])
-    return report_data
+    features = pd.DataFrame(data, index=[0])
+    return features
 
-user_data = user_report()
-st.subheader('Patient Data')
-st.write(user_data)
+input_df = user_input_features()
 
-# Model Training and Prediction
-rf = RandomForestClassifier()
-rf.fit(x_train, y_train_encoded)
-user_result = rf.predict(user_data)
+# Prediction
+prediction = model.predict(input_df)
+predicted_class = label_encoder.inverse_transform(prediction)[0] # Decode prediction
+st.subheader('Prediction:')
 
-# Decode Prediction
-#user_outcome = lab_enc.inverse_transform(user_result)
+if predicted_class == 0:
+    st.write('Healthy')
+elif predicted_class == 1:
+    st.write('Hepatitis')
+elif predicted_class == 2:
+    st.write('Fibrosis')
+elif predicted_class == 3:
+    st.write('Cirrhosis')
 
-st.title('Graphical Patient Report')
+# Model Performance
+st.subheader('Model Accuracy:')
+accuracy = accuracy_score(y_test, model.predict(X_test))
+st.write(f'{accuracy * 100:.2f}%')
 
-if user_result[0] == 0:
-    color = 'blue'
-else:
-    color = 'red'
+# Visualization (Example: Feature Importance)
+st.subheader('Feature Importance:')
+importances = model.feature_importances_
+feature_names = X.columns
+indices = np.argsort(importances)
 
-# --- Albumin Graph ---
-st.header('Albumin Value Graph (Yours vs Others)')
-fig_Albumin = plt.figure()
-ax3 = sns.scatterplot(x='Age', y='Albumin', data=df, hue='Outcome',
-                        palette='rocket')
-ax4 = sns.scatterplot(x=user_data['Age'], y=user_data['Albumin'], s=150,
-                        color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(10, 90, 5))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Albumin)
+plt.figure(figsize=(10, 6))
+plt.title('Feature Importances')
+plt.barh(range(len(indices)), importances[indices], align='center')
+plt.yticks(range(len(indices)), [feature_names[i] for i in indices])
+plt.xlabel('Relative Importance')
+st.pyplot(plt) # display plot in streamlit
 
-# --- Alkaline Phosphate Graph ---
-st.header('Alkaline Phosphate Value Graph (Yours vs Others)')
-fig_Alkaline_Phosphate = plt.figure()
-ax9 = sns.scatterplot(x='Age', y='Alkaline Phosphate', data=df, hue='Outcome',
-                        palette='rainbow')
-ax10 = sns.scatterplot(x=user_data['Age'], y=user_data['Alkaline Phosphate'],
-                            s=150, color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 440, 20))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Alkaline_Phosphate)
-
-# --- Alanine Aminotransferase Graph ---
-st.header('Alanine Aminotransferase Value Graph (Yours vs Others)')
-fig_Alanine_Aminotransferase = plt.figure()
-ax5 = sns.scatterplot(x='Age', y='Alanine Aminotransferase', data=df, hue='Outcome',
-                        palette='mako')
-ax6 = sns.scatterplot(x=user_data['Age'],
-                        y=user_data['Alanine Aminotransferase'], s=150,
-                        color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 340, 20))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Alanine_Aminotransferase)
-
-# --- Aspartate Aminotransferase Graph ---
-st.header('Aspartate Aminotransferase Value Graph (Yours vs Others)')
-fig_Aspartate_Aminotransferase = plt.figure()
-ax11 = sns.scatterplot(x='Age', y='Aspartate Aminotransferase', data=df,
-                            hue='Outcome', palette='flare')
-ax12 = sns.scatterplot(x=user_data['Age'],
-                            y=user_data['Aspartate Aminotransferase'], s=150,
-                            color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 340, 20))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Aspartate_Aminotransferase)
-
-# --- Bilirubin Graph ---
-st.header('Bilirubin Value Graph (Yours vs Others)')
-fig_Bilirubin = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Bilirubin', data=df, hue='Outcome',
-                            palette='crest')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Bilirubin'], s=150,
-                            color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 300, 20))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Bilirubin)
-
-st.header('Serum Cholinesterase Value Graph (Yours vs Others)')
-fig_Serum_Cholinesterase = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Serum Cholinesterase', data=df,
-                            hue='Outcome', palette='magma')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Serum Cholinesterase'],
-                            s=150, color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 20, 1))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Serum_Cholinesterase)
-
-st.header('Cholestrol Value Graph (Yours vs Others)')
-fig_Cholestrol = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Cholestrol', data=df, hue='Outcome',
-                            palette='viridis')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Cholestrol'], s=150,
-                            color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 10, 0.5))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Cholestrol)
-
-st.header('Creatinine Value Graph (Yours vs Others)')
-fig_Creatinine = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Creatinine', data=df, hue='Outcome',
-                            palette='coolwarm')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Creatinine'], s=150,
-                            color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 1200, 50))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Creatinine)
-
-st.header('Gamma-Glutamyl Transferase Value Graph (Yours vs Others)')
-fig_Gamma_Glutamyl_Transferase = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Gamma-Glutamyl Transferase', data=df,
-                            hue='Outcome', palette='icefire')
-ax14 = sns.scatterplot(x=user_data['Age'],
-                            y=user_data['Gamma-Glutamyl Transferase'], s=150,
-                            color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 700, 25))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Gamma_Glutamyl_Transferase)
-
-st.header('Prothrombin Value Graph (Yours vs Others)')
-fig_Prothrombin = plt.figure()
-ax13 = sns.scatterplot(x='Age', y='Prothrombin', data=df, hue='Outcome',
-                            palette='Spectral')
-ax14 = sns.scatterplot(x=user_data['Age'], y=user_data['Prothrombin'], s=150,
-                            color=color)
-plt.xticks(np.arange(0, 100, 5))
-plt.yticks(np.arange(0, 100, 5))
-plt.title('0 - Healthy, 1 - Hepatitis, 2 - Fibrosis, 3 - Cirrhosis')
-st.pyplot(fig_Prothrombin)
-
-# Final Report
-st.subheader('Your Report: ')
-
-if user_result[0] == 0:
-    output = 'Congratulations, you do not have any liver diseases.'
-elif user_result[0] == 1:
-    output = "Unfortunately, you do have Hepatitis."
-elif user_result[0] == 2:
-    output = "Unfortunately, you do have Fibrosis."
-else:
-    output = 'Unfortunately, you do have Cirrosis.'
-st.title(output)
-st.subheader('Accuracy: ')
-st.write(str(accuracy_score(y_test, rf.predict(x_test)) * 100) + '%')
-
-st.write(
-    'Datset description: From G.Gong: Carnegie-Mellon University; Mostly Boolean or numeric-valued attribute types; Includes cost data (donated by Peter Turney)')
-st.write(
-    'Relevant Papers: Diaconis,P. & Efron,B. (1983). Computer-Intensive Methods in Statistics. Scientific American, Volume 248. Cestnik,G., Konenenko,I, & Bratko,I. (1987). Assistant-86: A Knowledge-Elicitation Tool for Sophisticated Users. In I.Bratko & N.Lavrac (Eds.) Progress in Machine Learning, 31-45, Sigma Press.')
-st.write('Dataset License: Open Data Commons Public Domain Dedication and License (PDDL)')
-
-# Most important for users
-st.subheader(
-    'Lets raise awareness for hepatic health and increase awareness about hepatic diseases.')
-st.write("World Hepatitis Day: 28 July")
-
-# st.sidebar.subheader("""An article about this app: https://proskillocity.blogspot.com/2021/05/heart-disease-detector-web-app.html""")
-
-st.write(
-    "Disclaimer: This is just a learning project based on one particular dataset so please do not depend on it to actually know if you have any hepatic diseases or not. It might still be a false positive or false negative. A doctor is still the best fit for the determination of such diseases.")
-
-# Removing the image
-# image = Image.open('killocity (3).png')
-# st.image(image, use_column_width=True)
-
-st.sidebar.subheader(
-    "An article about this app: https://proskillocity.blogspot.com/2021/06/hepatic-disease-detector.html")
+# Footer
+st.write('App built by Abdul Haq.')
+st.write('Disclaimer: This is for educational purposes only. Consult a doctor for medical advice.')
